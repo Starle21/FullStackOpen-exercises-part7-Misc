@@ -7,7 +7,7 @@ const Anecdote = ({ anecdote }) => (
     </h2>
     <p>has {anecdote.votes} votes</p>
     <p>
-      for more info see <a href={anecdote.info}>{anecdote.info}</a> votes
+      for more info see <a href={anecdote.info}>{anecdote.info}</a>
     </p>
   </div>
 );
