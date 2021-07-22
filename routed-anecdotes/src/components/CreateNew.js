@@ -1,20 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useField } from "../hooks";
+import { useState } from "react";
 
 const CreateNew = (props) => {
-  const content = useField("text", "content");
+  const content = useField("text");
   const author = useField("text", "author");
   const info = useField("text", "info");
-
   const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     history.push("/");
@@ -36,7 +36,7 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button type="submit">create</button>
+        <button>create</button>
       </form>
     </div>
   );
