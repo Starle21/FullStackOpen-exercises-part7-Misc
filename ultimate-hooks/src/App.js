@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 const useField = (type) => {
@@ -21,14 +21,18 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([]);
 
-  const getAll = async () => {
+  const getAll = useCallback(async () => {
     const response = await axios.get(baseUrl);
-    setResources(response.data);
-  };
+    return setResources(response.data);
+  }, []);
+
+  useEffect(() => {
+    getAll();
+  }, [baseUrl, getAll]);
 
   const create = async (resource) => {
     const response = await axios.post(baseUrl, resource);
-    setResources(resources.concat(response.data));
+    return setResources([...resources, response.data]);
   };
 
   const service = {
@@ -46,12 +50,6 @@ const App = () => {
 
   const [notes, noteService] = useResource("http://localhost:3005/notes");
   const [persons, personService] = useResource("http://localhost:3005/persons");
-
-  //getting initial notes and persons from the server, first render
-  useEffect(() => {
-    noteService.getAll();
-    personService.getAll();
-  }, []);
 
   const handleNoteSubmit = (event) => {
     event.preventDefault();
