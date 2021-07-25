@@ -1,0 +1,4 @@
+@blogId = 60f16020f685420d80a7a9ff
+
+DELETE {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: bearer {{authorization}}

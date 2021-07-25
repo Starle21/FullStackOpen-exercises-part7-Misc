@@ -1,0 +1,10 @@
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+Authorization: bearer {{authorization}}
+
+{
+    "title":"Git token",
+    "author": "After started 5th part",
+    "url": "http://whatever.com",
+    "likes": 10
+}
