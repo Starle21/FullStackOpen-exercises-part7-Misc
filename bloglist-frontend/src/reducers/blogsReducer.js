@@ -35,6 +35,14 @@ const blogsReducer = (state = [], action) => {
       return action.data;
     case 'NEW_BLOG':
       return [...state, action.data];
+    case 'DELETE_BLOG': {
+      const id = action.id;
+      return state.filter(blog => (blog.id !== id ? blog : ''));
+    }
+    case 'UPDATE_BLOG': {
+      const id = action.data.id;
+      return state.map(blog => (blog.id !== id ? blog : action.data));
+    }
     default:
       return state;
   }
@@ -51,6 +59,20 @@ export const addNewBlog = newBlog => {
   return {
     type: 'NEW_BLOG',
     data: newBlog,
+  };
+};
+
+export const deleteBlog = id => {
+  return {
+    type: 'DELETE_BLOG',
+    id,
+  };
+};
+
+export const updateBlog = blog => {
+  return {
+    type: 'UPDATE_BLOG',
+    data: blog,
   };
 };
 

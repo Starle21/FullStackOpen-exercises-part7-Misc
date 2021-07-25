@@ -9,7 +9,12 @@ import loginService from './services/login';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setNotification } from './reducers/notificationReducer';
-import { initBlogs, addNewBlog } from './reducers/blogsReducer';
+import {
+  initBlogs,
+  addNewBlog,
+  deleteBlog,
+  updateBlog,
+} from './reducers/blogsReducer';
 
 const App = () => {
   // const [blogs, setBlogs] = useState([]);
@@ -119,7 +124,7 @@ const App = () => {
   const handleGiveLike = async blog => {
     const copyBlog = { ...blog, likes: blog.likes + 1 };
     const blogUpdated = await blogService.update(blog.id, copyBlog);
-    // setBlogs(blogs.map(e => (e.id !== blogUpdated.id ? e : blogUpdated)));
+    dispatch(updateBlog(blogUpdated));
   };
 
   const handleDeletePost = async blog => {
@@ -128,8 +133,8 @@ const App = () => {
       if (!confirmed) return;
       blogService.setToken(user.token);
       await blogService.remove(blog.id);
+      dispatch(deleteBlog(blog.id));
       showNotification(`${blog.title} was removed.`);
-      // setBlogs(blogs.filter(e => (e.id !== blog.id ? e : '')));
     } catch (exception) {
       showNotification(exception.response.data.error, 'error');
     }
