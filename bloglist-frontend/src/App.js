@@ -6,20 +6,24 @@ import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
-import { setNotification } from './reducers/notificationReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { setNotification } from './reducers/notificationReducer';
+import { initBlogs, addNewBlog } from './reducers/blogsReducer';
+
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
 
   const dispatch = useDispatch();
-  const notification = useSelector(state => state);
+  const notification = useSelector(state => state.notification);
+  const blogs = useSelector(state => state.blogs);
 
-  useEffect(() => {
-    blogService.getAll().then(blogs => setBlogs(blogs));
+  useEffect(async () => {
+    const blogs = await blogService.getAll();
+    dispatch(initBlogs(blogs));
   }, []);
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const App = () => {
         ...blog,
         user: { name: user.name, username: user.username, id: blog.user },
       };
-      setBlogs(blogs.concat(blogWithUser));
+      dispatch(addNewBlog(blogWithUser));
       showNotification(`A new blog ${blog.title} by ${blog.author} created!`);
       showBlogsRef.current.toggleVisibility();
     } catch (exception) {
@@ -115,7 +119,7 @@ const App = () => {
   const handleGiveLike = async blog => {
     const copyBlog = { ...blog, likes: blog.likes + 1 };
     const blogUpdated = await blogService.update(blog.id, copyBlog);
-    setBlogs(blogs.map(e => (e.id !== blogUpdated.id ? e : blogUpdated)));
+    // setBlogs(blogs.map(e => (e.id !== blogUpdated.id ? e : blogUpdated)));
   };
 
   const handleDeletePost = async blog => {
@@ -125,7 +129,7 @@ const App = () => {
       blogService.setToken(user.token);
       await blogService.remove(blog.id);
       showNotification(`${blog.title} was removed.`);
-      setBlogs(blogs.filter(e => (e.id !== blog.id ? e : '')));
+      // setBlogs(blogs.filter(e => (e.id !== blog.id ? e : '')));
     } catch (exception) {
       showNotification(exception.response.data.error, 'error');
     }
