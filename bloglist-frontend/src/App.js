@@ -1,47 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 // Components
-import Togglable from './components/Togglable';
-import NewBlog from './components/NewBlog';
-import Notification from './components/Notification';
-import BlogList from './components/BlogList';
-import LoginForm from './components/LoginForm';
+import Users from './components/Users';
+import Main from './components/Main';
 import LoginStatus from './components/LoginStatus';
-// State
-import { useDispatch, useSelector } from 'react-redux';
+import Notification from './components/Notification';
+
+import { useDispatch } from 'react-redux';
 import { initBlogs } from './reducers/blogsReducer';
 import { initUser } from './reducers/loggedUserReducer';
+import { initUsers } from './reducers/usersReducer';
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.loggedUser);
-  const blogsSectionRef = useRef();
 
   useEffect(() => {
     dispatch(initUser());
     dispatch(initBlogs());
+    dispatch(initUsers());
   }, []);
 
-  const loginSection = () => (
-    <>
-      <h1>Login</h1>
-      <Notification />
-      <LoginForm />
-    </>
-  );
-
-  const blogsSection = () => (
-    <>
-      <h1>Blogs</h1>
-      <Notification />
+  return (
+    <Router>
+      <h1>Blogs app</h1>
       <LoginStatus />
-      <BlogList />
-      <Togglable buttonLabel="create new blog" ref={blogsSectionRef}>
-        <NewBlog forwardedRef={blogsSectionRef} />
-      </Togglable>
-    </>
-  );
+      <Notification />
 
-  return <div>{user === null ? loginSection() : blogsSection()}</div>;
+      <Switch>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/">
+          <Main />
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;
