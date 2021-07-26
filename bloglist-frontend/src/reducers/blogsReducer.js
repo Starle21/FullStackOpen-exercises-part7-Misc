@@ -1,3 +1,6 @@
+import blogService from '../services/blogs';
+
+// state stored through this reducer:
 // {
 //   blogs: [
 //     {
@@ -13,26 +16,17 @@
 //       },
 //     },
 //     {
-//       id: 'x2x',
-//       title: 'xx',
-//       author: 'yy',
-//       url: 'zz',
-//       likes: 5,
-//       user: {
-//         name: 'xx',
-//         username: 'zz',
-//         id: '65d',
-//       },
+//       ...
 //     },
 //   ];
 // }
 
 const blogsReducer = (state = [], action) => {
-  console.log('STATE NOW: ', state);
-  console.log('ACTION: ', action);
+  // console.log('STATE NOW: ', state);
+  // console.log('ACTION: ', action);
   switch (action.type) {
     case 'INIT_BLOGS':
-      return action.data;
+      return action.blogs;
     case 'NEW_BLOG':
       return [...state, action.data];
     case 'DELETE_BLOG': {
@@ -48,31 +42,48 @@ const blogsReducer = (state = [], action) => {
   }
 };
 
-export const initBlogs = data => {
-  return {
-    type: 'INIT_BLOGS',
-    data,
+export const initBlogs = () => {
+  return async dispatch => {
+    const blogs = await blogService.getAll();
+    dispatch({
+      type: 'INIT_BLOGS',
+      blogs,
+    });
   };
 };
 
-export const addNewBlog = newBlog => {
-  return {
-    type: 'NEW_BLOG',
-    data: newBlog,
+export const addNewBlog = (newBlog, user) => {
+  return async dispatch => {
+    blogService.setToken(user.token);
+    const blog = await blogService.create(newBlog);
+    const blogWithUser = {
+      ...blog,
+      user: { name: user.name, username: user.username, id: blog.user },
+    };
+    dispatch({
+      type: 'NEW_BLOG',
+      data: blogWithUser,
+    });
   };
 };
 
 export const deleteBlog = id => {
-  return {
-    type: 'DELETE_BLOG',
-    id,
+  return async dispatch => {
+    // remove on the server
+    await blogService.remove(id);
+    // remove on the frontend in the redux store
+    dispatch({
+      type: 'DELETE_BLOG',
+      id,
+    });
   };
 };
 
 export const updateBlog = blog => {
-  return {
-    type: 'UPDATE_BLOG',
-    data: blog,
+  return async dispatch => {
+    const blogUppedLiked = { ...blog, likes: blog.likes + 1 };
+    const blogUpdated = await blogService.update(blog.id, blogUppedLiked);
+    dispatch({ type: 'UPDATE_BLOG', data: blogUpdated });
   };
 };
 

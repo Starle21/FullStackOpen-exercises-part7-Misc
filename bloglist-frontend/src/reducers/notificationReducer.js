@@ -6,8 +6,8 @@
 // }
 
 const notificationReducer = (state = null, action) => {
-  console.log('STATE NOW: ', state);
-  console.log('ACTION: ', action);
+  // console.log('STATE NOW: ', state);
+  // console.log('ACTION: ', action);
   switch (action.type) {
     case 'SET_NOTIFICATION':
       return action.data;
@@ -19,7 +19,7 @@ const notificationReducer = (state = null, action) => {
 };
 
 let timer = null;
-export const setNotification = (message, style, sec) => {
+export const setNotification = (message, style = 'success') => {
   return dispatch => {
     dispatch({
       type: 'SET_NOTIFICATION',
@@ -34,7 +34,7 @@ export const setNotification = (message, style, sec) => {
     }
     timer = setTimeout(() => {
       dispatch(removeNotification());
-    }, sec * 1000);
+    }, 5 * 1000);
   };
 };
 

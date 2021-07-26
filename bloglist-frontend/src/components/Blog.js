@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const Blog = ({ blog, user, giveLike, deletePost }) => {
   const [visible, setVisible] = useState(false);
   const hiddenDefault = { display: visible ? '' : 'none' };
+
   const toggleVisibility = () => {
     setVisible(!visible);
   };
