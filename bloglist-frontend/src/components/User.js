@@ -1,8 +1,10 @@
 import React from 'react';
 
+// input: props user:{ name, username, id, blogs:[{..},{..}] }
+// show name of the user
+// list all the blogs added by the user
 const User = ({ user }) => {
-  if (!user) return null;
-
+  console.log(user);
   return (
     <div>
       <h2>{user.name}</h2>

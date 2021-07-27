@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// Routing
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // Redux state management

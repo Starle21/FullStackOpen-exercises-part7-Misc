@@ -9,6 +9,7 @@ import Main from './components/Main';
 import LoginStatus from './components/LoginStatus';
 import Notification from './components/Notification';
 import User from './components/User';
+import Blog from './components/Blog';
 
 import { useDispatch } from 'react-redux';
 import { initBlogs } from './reducers/blogsReducer';
@@ -24,9 +25,17 @@ const App = () => {
     dispatch(initUsers());
   }, []);
 
-  const match = useRouteMatch('/users/:id');
   const users = useSelector(state => state.users);
-  const user = match ? users.find(user => user.id === match.params.id) : null;
+  const matchUser = useRouteMatch('/users/:id');
+  const user = matchUser
+    ? users.find(user => user.id === matchUser.params.id)
+    : null;
+
+  const blogs = useSelector(state => state.blogs);
+  const matchBlog = useRouteMatch('/blogs/:id');
+  const blog = matchBlog
+    ? blogs.find(blog => blog.id === matchBlog.params.id)
+    : null;
 
   return (
     <div>
@@ -41,6 +50,9 @@ const App = () => {
           ) : (
             <div>The user does not exist or you put in a wrong url!</div>
           )}
+        </Route>
+        <Route path="/blogs/:id">
+          <Blog blog={blog} />
         </Route>
         <Route path="/users">
           <Users />

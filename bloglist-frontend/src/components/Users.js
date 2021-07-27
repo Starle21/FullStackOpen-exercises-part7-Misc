@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+// input: users: [ {..}, {..} ]
+// shows list of users - links to a single user
 const Users = () => {
   const users = useSelector(state => state.users);
 
