@@ -12,27 +12,17 @@ import LoginStatus from './LoginStatus';
 import { useSelector } from 'react-redux';
 
 const Main = () => {
-  const user = useSelector(state => state.loggedUser);
   const blogsSectionRef = useRef();
 
-  const loginSection = () => (
-    <>
-      <h2>Login</h2>
-      <LoginForm />
-    </>
-  );
-
-  const blogsSection = () => (
-    <>
-      <h2>Blogs list</h2>
+  return (
+    <div>
+      <h2>List of blogs</h2>
       <BlogList />
       <Togglable buttonLabel="create new blog" ref={blogsSectionRef}>
         <NewBlog forwardedRef={blogsSectionRef} />
       </Togglable>
-    </>
+    </div>
   );
-
-  return <div>{user === null ? loginSection() : blogsSection()}</div>;
 };
 
 export default Main;

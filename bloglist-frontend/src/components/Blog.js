@@ -38,8 +38,6 @@ const Blog = ({ blog }) => {
     </div>
   );
 
-  if (!user) return <div>logged out</div>;
-  if (!blog) return <div>blog does not exist</div>;
   return (
     <div>
       <h2>
