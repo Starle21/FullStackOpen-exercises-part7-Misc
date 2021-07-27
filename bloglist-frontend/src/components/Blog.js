@@ -52,6 +52,13 @@ const Blog = ({ blog }) => {
       </div>
       <div>added by {blog.user.name}</div>
       {blog.user.username === user.username ? showDeleteButton() : ''}
+      <h3>comments</h3>
+      {blog.comments.length === 0 ? <div>No comments...</div> : ''}
+      <ul>
+        {blog.comments.map(c => {
+          return <li key={c.id}>{c.content}</li>;
+        })}
+      </ul>
     </div>
   );
 };
