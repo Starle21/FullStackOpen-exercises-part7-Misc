@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as ReachLink } from 'react-router-dom';
+
+import { Link } from '@chakra-ui/react';
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs);
@@ -10,8 +12,8 @@ const BlogList = () => {
     <div>
       {sortedBlogs.map(blog => (
         <div key={blog.id} className="blog">
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} by {blog.author}
+          <Link as={ReachLink} to={`/blogs/${blog.id}`}>
+            {blog.title} <i>by</i> {blog.author}
           </Link>
         </div>
       ))}

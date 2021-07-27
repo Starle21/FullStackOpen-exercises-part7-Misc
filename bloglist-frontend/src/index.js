@@ -14,12 +14,15 @@ import App from './App';
 
 // Styles
 import './index.css';
+import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.render(
-  <Router>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </Router>,
+  <ChakraProvider>
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
+  </ChakraProvider>,
   document.getElementById('root')
 );

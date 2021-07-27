@@ -10,6 +10,19 @@ import { useHistory } from 'react-router-dom';
 
 import { useField } from '../hooks';
 
+import {
+  Container,
+  Heading,
+  Link,
+  Center,
+  Flex,
+  Button,
+  Box,
+  Input,
+  UnorderedList,
+  ListItem,
+} from '@chakra-ui/react';
+
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.loggedUser);
@@ -60,31 +73,41 @@ const Blog = ({ blog }) => {
   );
 
   return (
-    <div>
-      <h2>
-        {blog.title} by {blog.author}
-      </h2>
-      <a href={blog.url}>{blog.url}</a>
-      <div>
-        <span className="blog-likes">{blog.likes} likes</span>
-        <button id="like-button" onClick={giveLike}>
-          like
-        </button>
-      </div>
-      <div>added by {blog.user.name}</div>
-      {blog.user.username === user.username ? showDeleteButton() : ''}
-      <h3>comments</h3>
-      <form onSubmit={addComment}>
-        <input {...commentInput.input} />
-        <button type="submit">add comment</button>
-      </form>
-      {blog.comments.length === 0 ? <div>No comments...</div> : ''}
-      <ul>
-        {blog.comments.map(c => {
-          return <li key={c.id}>{c.content}</li>;
-        })}
-      </ul>
-    </div>
+    <Container>
+      <Heading align="center" size="lg">
+        {blog.title} <i>by</i> {blog.author}
+      </Heading>
+      <Flex direction="column" align="center" mt={10}>
+        <Link href={blog.url}>{blog.url}</Link>
+        <Box border="1px" borderColor="teal" p={2} rounded={20} m={2}>
+          <span className="blog-likes">{blog.likes} likes</span>
+          <Button id="like-button" onClick={giveLike} colorScheme="teal" m={2}>
+            like
+          </Button>
+        </Box>
+        <div>added by {blog.user.name}</div>
+        {blog.user.username === user.username ? showDeleteButton() : ''}
+        <Heading color="teal" w="100%" size="md" align="center" mt={10}>
+          comments
+        </Heading>
+        <form onSubmit={addComment}>
+          <Input {...commentInput.input} />
+          <Button type="submit" colorScheme="teal" variant="outline" w="100%">
+            add comment
+          </Button>
+        </form>
+        {blog.comments.length === 0 ? <div>No comments...</div> : ''}
+        <UnorderedList>
+          {blog.comments.map(c => {
+            return (
+              <ListItem key={c.id} m={3}>
+                {c.content}
+              </ListItem>
+            );
+          })}
+        </UnorderedList>
+      </Flex>
+    </Container>
   );
 };
 

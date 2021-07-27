@@ -7,11 +7,20 @@ import { setUser } from '../reducers/loggedUserReducer';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
 
+import {
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  useDisclosure,
+} from '@chakra-ui/react';
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  let { isOpen } = useDisclosure();
   const handleLogin = async e => {
     e.preventDefault();
     try {
@@ -30,29 +39,35 @@ const LoginForm = () => {
   return (
     <>
       <form onSubmit={handleLogin}>
-        <div>
-          username{' '}
-          <input
-            id="username"
-            type="text"
-            name="Username"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password{' '}
-          <input
-            id="password"
-            type="password"
-            name="Password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button id="login-button" type="submit">
+        <FormLabel>username</FormLabel>
+        <Input
+          id="username"
+          type="text"
+          name="Username"
+          value={username}
+          placeholder="jondoe"
+          onChange={({ target }) => setUsername(target.value)}
+          background="gray.50"
+        />
+        <FormLabel mt={5}>password</FormLabel>
+        <Input
+          id="password"
+          type="password"
+          name="Password"
+          value={password}
+          placeholder="*******"
+          onChange={({ target }) => setPassword(target.value)}
+          background="gray.50"
+        />
+        <Button
+          id="login-button"
+          type="submit"
+          colorScheme="teal"
+          w="100%"
+          mt={8}
+        >
           login
-        </button>
+        </Button>
       </form>
     </>
   );

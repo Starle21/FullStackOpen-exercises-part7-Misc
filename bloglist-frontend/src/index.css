@@ -1,21 +1,23 @@
 .success {
-  color: green;
-  background: lightgrey;
+  color: whitesmoke;
+  background: #319795;
   font-size: 20px;
   border-style: solid;
   border-radius: 5px;
   padding: 2px;
   margin: 5px;
+  font-weight: bold;
 }
 
 .error {
-  color: red;
-  background: lightgrey;
+  color: whitesmoke;
+  background: rgb(214, 80, 80);
   font-size: 20px;
   border-style: solid;
   border-radius: 5px;
   padding: 2px;
   margin: 5px;
+  font-weight: bold;
 }
 
 .blog {

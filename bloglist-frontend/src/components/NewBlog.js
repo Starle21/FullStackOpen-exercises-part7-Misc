@@ -6,6 +6,8 @@ import { addNewBlog } from '../reducers/blogsReducer';
 
 import { useField } from '../hooks';
 
+import { Heading, Button, Input } from '@chakra-ui/react';
+
 const NewBlog = ({ forwardedRef }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.loggedUser);
@@ -41,20 +43,27 @@ const NewBlog = ({ forwardedRef }) => {
 
   return (
     <div>
-      <h3>create new blog</h3>
+      <Heading color="teal" w="100%" size="md" align="center" mt={5}>
+        create new blog
+      </Heading>
       <form onSubmit={handleCreateNewBlog} className="submitNewBlog">
         <div>
-          title: <input {...title.input} />
+          <Input placeholder="title" {...title.input} />
         </div>
         <div>
-          author: <input {...author.input} />
+          <Input placeholder="author" {...author.input} />
         </div>
         <div>
-          url: <input {...url.input} />
+          <Input placeholder="url" {...url.input} />
         </div>
-        <button id="createBlog-button" type="submit">
+        <Button
+          id="createBlog-button"
+          type="submit"
+          colorScheme="teal"
+          w="100%"
+        >
           create
-        </button>
+        </Button>
       </form>
     </div>
   );

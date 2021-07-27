@@ -1,6 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as ReachLink } from 'react-router-dom';
+
+import {
+  Container,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Link,
+} from '@chakra-ui/react';
 
 // input: users: [ {..}, {..} ]
 // shows list of users - links to a single user
@@ -9,27 +21,33 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users list</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>user name</th>
-            <th>blogs created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => {
-            return (
-              <tr key={user.id}>
-                <td>
-                  <Link to={`/users/${user.id}`}>{user.name}</Link>
-                </td>
-                <td>{user.blogs.length}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <Heading align="center" size="lg">
+        Users list
+      </Heading>
+      <Container mt={10}>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>user name</Th>
+              <Th>blogs created</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {users.map(user => {
+              return (
+                <Tr key={user.id}>
+                  <Td>
+                    <Link as={ReachLink} to={`/users/${user.id}`}>
+                      {user.name}
+                    </Link>
+                  </Td>
+                  <Td>{user.blogs.length}</Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </Container>
     </div>
   );
 };

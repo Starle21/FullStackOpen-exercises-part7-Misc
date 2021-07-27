@@ -11,17 +11,21 @@ import LoginStatus from './LoginStatus';
 // State
 import { useSelector } from 'react-redux';
 
+import { Container, Heading } from '@chakra-ui/react';
+
 const Main = () => {
   const blogsSectionRef = useRef();
 
   return (
-    <div>
-      <h2>List of blogs</h2>
+    <Container>
+      <Heading align="center" size="lg">
+        List of blogs
+      </Heading>
       <BlogList />
       <Togglable buttonLabel="create new blog" ref={blogsSectionRef}>
         <NewBlog forwardedRef={blogsSectionRef} />
       </Togglable>
-    </div>
+    </Container>
   );
 };
 

@@ -17,6 +17,8 @@ import { initUser } from './reducers/loggedUserReducer';
 import { initUsers } from './reducers/usersReducer';
 import LoginForm from './components/LoginForm';
 
+import { Flex, Heading, Container, Center } from '@chakra-ui/react';
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -44,47 +46,59 @@ const App = () => {
     : null;
 
   // if user=null (not signed in)
+
   const loginSection = () => (
-    <div>
-      <h1>Blogs app</h1>
+    <>
       <Notification />
-      <LoginForm />
-    </div>
+
+      <Flex height="100vh" alignItems="center" justifyContent="center">
+        <Flex direction="column" background="gray.200" p={12} rounded={20}>
+          <Heading mb={6} align="center">
+            Blogs app
+          </Heading>
+          <LoginForm />
+        </Flex>
+      </Flex>
+    </>
   );
 
   // if user signed in
   const landingSection = () => (
-    <div>
+    <>
       <Menu />
-      <h1>Blogs app</h1>
-      <Notification />
+      <Container maxW="container.xl">
+        <Heading align="center" m={10}>
+          Blogs app
+        </Heading>
+        <Notification />
 
-      <Switch>
-        <Route path="/users/:id">
-          {user ? (
-            <User user={user} />
-          ) : (
-            <div>The user does not exist or you put in a wrong url!</div>
-          )}
-        </Route>
-        <Route path="/blogs/:id">
-          {blog ? (
-            <Blog blog={blog} />
-          ) : (
-            <div>The blog does not exist or you put in a wrong url!</div>
-          )}
-        </Route>
-        <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/">
-          <Main />
-        </Route>
-      </Switch>
-    </div>
+        <Switch>
+          <Route path="/users/:id">
+            {user ? (
+              <User user={user} />
+            ) : (
+              <div>The user does not exist or you put in a wrong url!</div>
+            )}
+          </Route>
+          <Route path="/blogs/:id">
+            {blog ? (
+              <Blog blog={blog} />
+            ) : (
+              <div>The blog does not exist or you put in a wrong url!</div>
+            )}
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Main />
+          </Route>
+        </Switch>
+      </Container>
+    </>
   );
 
-  return <div>{userAuth === null ? loginSection() : landingSection()}</div>;
+  return <>{userAuth === null ? loginSection() : landingSection()}</>;
 };
 
 export default App;
