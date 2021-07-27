@@ -23,7 +23,7 @@ const NewBlog = ({ forwardedRef }) => {
     };
 
     try {
-      dispatch(addNewBlog(blogToCreate, user));
+      await dispatch(addNewBlog(blogToCreate, user));
       dispatch(
         setNotification(
           `A new blog ${title.input.value} by ${author.input.value} created!`

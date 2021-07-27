@@ -4,7 +4,6 @@ import React from 'react';
 // show name of the user
 // list all the blogs added by the user
 const User = ({ user }) => {
-  console.log(user);
   return (
     <div>
       <h2>{user.name}</h2>

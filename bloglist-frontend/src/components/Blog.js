@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteBlog, updateBlog } from '../reducers/blogsReducer';
+import { deleteBlog, updateBlog, comment } from '../reducers/blogsReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import blogService from '../services/blogs';
 
 import { useHistory } from 'react-router-dom';
 
+import { useField } from '../hooks';
+
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.loggedUser);
   const history = useHistory();
+  const commentInput = useField('text', 'comment');
 
   const giveLike = async () => {
     dispatch(updateBlog(blog));
@@ -28,6 +31,24 @@ const Blog = ({ blog }) => {
     } catch (exception) {
       dispatch(setNotification(exception.response.data.error, 'error'));
     }
+  };
+
+  const addComment = async e => {
+    e.preventDefault();
+    if (commentInput.input.value.length === 0)
+      return dispatch(setNotification('Empty comments not allowed', 'error'));
+    const newComment = {
+      content: commentInput.input.value,
+    };
+    try {
+      await dispatch(comment(blog.id, newComment));
+      dispatch(
+        setNotification(`${commentInput.input.value} was added.`, 'success')
+      );
+    } catch (exception) {
+      dispatch(setNotification(exception.response.data.error, 'error'));
+    }
+    commentInput.reset();
   };
 
   const showDeleteButton = () => (
@@ -53,6 +74,10 @@ const Blog = ({ blog }) => {
       <div>added by {blog.user.name}</div>
       {blog.user.username === user.username ? showDeleteButton() : ''}
       <h3>comments</h3>
+      <form onSubmit={addComment}>
+        <input {...commentInput.input} />
+        <button type="submit">add comment</button>
+      </form>
       {blog.comments.length === 0 ? <div>No comments...</div> : ''}
       <ul>
         {blog.comments.map(c => {
